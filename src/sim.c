@@ -423,14 +423,77 @@ int main(int argc, char **argv)
             address[j-1] = '\0';
             
             if(DEBUG) printf("%i: %c %s\n", counter, mode, address);
+
+            // if(mode == 'R')
+            // {
+            //     readFromCache(cache, address);
+            // }
+            // else if(mode == 'W')
+            // {
+            //     writeToCache(cache, address);
+            // }
+            // else
+            // {
+            //     printf("%i: ERROR!!!!\n", counter);
+            //     fclose(file);
+            //     destroyCache(cache);
+            //     cache = NULL;
+                
+            //     return 0;
+            // }
+
+            // Had to set the mode variable Manually ;-;
+            mode = 'W';
+            if(mode == 'W')
+            {
+                writeToCache(cache, address);
+            }
+            else
+            {
+                printf("%i: ERROR!!!!\n", counter);
+                fclose(file);
+                destroyCache(cache);
+                cache = NULL;
+                
+                return 0;
+            }
+            
+            counter++;
+        }
+    }
+
+    while( fgets(buffer, LINELENGTH, file) != NULL )
+    {
+        if(buffer[0] != '#')
+        {
+            i = 0;
+            while(buffer[i] != ' ')
+            {
+                i++;
+            }
+            
+            mode = buffer[i+1];
+            
+            i = i+2;
+            j = 0;
+            
+            while(buffer[i] != '\0')
+            {
+                address[j] = buffer[i];
+                i++;
+                j++;
+            }
+            
+            address[j-1] = '\0';
+            
+            if(DEBUG) printf("%i: %c %s\n", counter, mode, address);
+
+            // Had to set the mode variable Manually ;-;
+            mode = 'R';
             
             if(mode == 'R')
             {
                 readFromCache(cache, address);
-            }
-            else if(mode == 'W')
-            {
-                writeToCache(cache, address);
             }
             else
             {
